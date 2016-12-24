@@ -162,6 +162,11 @@ by using the *TeaForPoco.Core.ttinclude* file.
 
 #### Basic functionality
 
+The ReadEnums Method tries to read all your C# files in the configured folder.   
+It returns a list of *EnumItem* classes described below (see Output Class Diagram section).
+
+The ReadPocoClasses Method tries to read all your C# files in the configured folder.  
+It omits interfaces within this folder and returns a list of *PocoClass* classes described below (see Output Class Diagram section).
 
 #### Output Class Diagram
 
