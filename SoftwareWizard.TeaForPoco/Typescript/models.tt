@@ -48,7 +48,7 @@ declare module <#=        InterfaceModuleName  #>
     foreach (var pocoClass in pocoClasses) { #>
     export interface <#= GetInterfaceName(pocoClass.Name) #> <#= GetInterfaceExtensions(pocoClass.BaseClasses) #> 
     {
-<#        foreach (var property in pocoClass.PocoClassProperties)
+<#        foreach (var property in pocoClass.PocoProperties)
         {
             WriteProperty(property);
         } #>
@@ -72,7 +72,7 @@ declare module <#=        InterfaceModuleName  #>
     };  
     
     // --------- Direct Output Methods  -----------------------------------------------------------------
-    private void WriteProperty(PocoClassProperty property)
+    private void WriteProperty(PocoProperty property)
     { #>
         <#=  GetPropertyName(property.Name) #> : <#= GetPropertyType(property.TypeSyntax) #>,      
 <#+ }

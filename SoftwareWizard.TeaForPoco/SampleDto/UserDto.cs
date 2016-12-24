@@ -14,7 +14,7 @@ namespace SoftwareWizard.TeaForPoco.SampleDto
 
         public bool IsMarried { get; set; }
 
-        public int ShoeSize { get; set; }
+        public int? ShoeSize { get; set; }
 
         public DateTime DateOfBirth { get; set; }
 

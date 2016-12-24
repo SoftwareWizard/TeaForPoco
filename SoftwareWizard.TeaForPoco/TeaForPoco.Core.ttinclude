@@ -61,7 +61,7 @@
                     : classDeclaration.Identifier.Text,
                     BaseClasses = GetBaseClasses(classDeclaration),
                     BaseInterfaces = GetBaseInterfaces(classDeclaration),
-                    PocoClassProperties = GetPocoClassProperties(classDeclaration)
+                    PocoProperties = GetPocoClassProperties(classDeclaration)
                     }).ToList();
 
             pocoClasses.AddRange(pocoClassesInFile);
@@ -70,14 +70,14 @@
         return pocoClasses;
     }
 
-    private IList<PocoClassProperty> GetPocoClassProperties(ClassDeclarationSyntax classDeclaration)
+    private IList<PocoProperty> GetPocoClassProperties(ClassDeclarationSyntax classDeclaration)
     {
         var propertyDeclarations = classDeclaration.Members
             .OfType<PropertyDeclarationSyntax>()
             .Where(x => x.ExplicitInterfaceSpecifier == null)
             .ToList();
 
-        return propertyDeclarations.Select(propertyDeclaration => new PocoClassProperty
+        return propertyDeclarations.Select(propertyDeclaration => new PocoProperty
             {
                 Name = propertyDeclaration.Identifier.Text,
                 TypeSyntax = propertyDeclaration.Type
@@ -124,10 +124,10 @@
 
         public IList<string> BaseInterfaces { get; set; }
 
-        public IList<PocoClassProperty> PocoClassProperties { get; set; }
+        public IList<PocoProperty> PocoProperties { get; set; }
     }
  #>
-<#+ public class PocoClassProperty
+<#+ public class PocoProperty
     {
         public string Name { get; set; }
 
