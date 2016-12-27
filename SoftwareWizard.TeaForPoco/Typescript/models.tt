@@ -39,7 +39,7 @@ declare module <#=        InterfaceModuleName  #>
 {
 <#
     var path = Host.ResolvePath(EnumPath);
-    _enumNames = EnumReader.Read(path).Select(item => item.Name).ToList();
+    _enumNames = ReadEnums(path).Select(item => item.Name).ToList();
 
     path = Host.ResolvePath(PocoClassPath);
     var pocoClasses = ReadPocoClasses(path).ToList();

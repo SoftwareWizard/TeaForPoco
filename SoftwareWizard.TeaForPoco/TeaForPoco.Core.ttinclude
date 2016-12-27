@@ -20,7 +20,7 @@
     WriteLine("// Do not make changes directly to this file - edit the template instead.");
     WriteLine("// ------------------------------------------------------------------------------------------------");
 #>
-<#+ // Setting Declarations - edit these in the main <name>.tt file *******************************************************************************
+<#+    // Setting Declarations - edit these in the main <name>.tt file *******************************************************************************
     public string EnumModuleName = string.Empty;
     public string EnumPath = string.Empty;
     
@@ -34,7 +34,7 @@
     // Private variables / constants
     private const string INTERFACE_REGEX = @"^I[A-Z]\w*";
 #>
-<#+ // PocoClassReader *********************************************************************************************************************
+<#+    // PocoClassReader *********************************************************************************************************************
     public IEnumerable<PocoClass> ReadPocoClasses(string path)
     {
         if (string.IsNullOrEmpty(path))
@@ -116,7 +116,7 @@
         return new List<string>();
     }
  #>
-<#+ public class PocoClass
+<#+    public class PocoClass
     {
         public string Name { get; set; }
         
@@ -127,61 +127,58 @@
         public IList<PocoProperty> PocoProperties { get; set; }
     }
  #>
-<#+ public class PocoProperty
+<#+    public class PocoProperty
     {
         public string Name { get; set; }
 
         public TypeSyntax TypeSyntax { get; set; }
     }
  #>
-<#+ // EnumReader *********************************************************************************************************************
-    public static class EnumReader
+<#+    // EnumReader *********************************************************************************************************************
+    public IEnumerable<EnumItem> ReadEnums(string path)
     {
-        public static IEnumerable<EnumItem> Read(string path)
+        if (string.IsNullOrEmpty(path))
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new ArgumentException("Enum Path is Empty");
-            }
-
-            var enumItems = new List<EnumItem>();
-            var directoryInfo = new DirectoryInfo(path);
-            var enumFiles = directoryInfo.EnumerateFiles("*.cs", SearchOption.AllDirectories);
-
-            foreach (var file in enumFiles)
-            {
-                var fileContent = file.OpenText().ReadToEnd();
-                var tree = CSharpSyntaxTree.ParseText(fileContent);
-                var syntaxRoot = tree.GetRoot();
-                var enumDeclarations = syntaxRoot.DescendantNodes().OfType<EnumDeclarationSyntax>();
-
-                var enumItem = enumDeclarations.Select(enumDeclaration => new EnumItem
-                    {
-                        Name = enumDeclaration.Identifier.Text,
-                        EnumMemberItems = enumDeclaration.Members.Select(enumMemberDeclaration => new EnumMemberItem
-                        {
-                            Name = enumMemberDeclaration.Identifier.Text,
-                            Value = enumMemberDeclaration.EqualsValue != null
-                            ? enumMemberDeclaration.EqualsValue.Value.ToString()
-                            : string.Empty
-                            }).ToList()
-                        }).First();
-                 
-                enumItems.Add(enumItem);
-            }
-
-            return enumItems;
+            throw new ArgumentException("Enum Path is Empty");
         }
+
+        var enumItems = new List<EnumItem>();
+        var directoryInfo = new DirectoryInfo(path);
+        var enumFiles = directoryInfo.EnumerateFiles("*.cs", SearchOption.AllDirectories);
+
+        foreach (var file in enumFiles)
+        {
+            var fileContent = file.OpenText().ReadToEnd();
+            var tree = CSharpSyntaxTree.ParseText(fileContent);
+            var syntaxRoot = tree.GetRoot();
+            var enumDeclarations = syntaxRoot.DescendantNodes().OfType<EnumDeclarationSyntax>();
+
+            var enumItem = enumDeclarations.Select(enumDeclaration => new EnumItem
+                {
+                    Name = enumDeclaration.Identifier.Text,
+                    EnumMemberItems = enumDeclaration.Members.Select(enumMemberDeclaration => new EnumMemberItem
+                    {
+                        Name = enumMemberDeclaration.Identifier.Text,
+                        Value = enumMemberDeclaration.EqualsValue != null
+                        ? enumMemberDeclaration.EqualsValue.Value.ToString()
+                        : string.Empty
+                        }).ToList()
+                    }).First();
+                 
+            enumItems.Add(enumItem);
+        }
+
+           return enumItems;
     }
  #>
-<#+ public class EnumItem
+<#+    public class EnumItem
     {
         public string Name { get; set; }
 
         public List<EnumMemberItem> EnumMemberItems { get; set; }
     }
  #>
-<#+ public class EnumMemberItem
+<#+    public class EnumMemberItem
     {
         public string Name { get; set; }
 

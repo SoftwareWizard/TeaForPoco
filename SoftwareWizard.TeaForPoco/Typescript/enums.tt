@@ -27,7 +27,7 @@ module <#=        EnumModuleName #>
 {
 <#
     var path = Host.ResolvePath(EnumPath);
-    var enumItems = EnumReader.Read(path);
+    var enumItems = ReadEnums(path);
 
     foreach (var enumItem in enumItems) { #>
     export enum <#=            enumItem.Name #>
