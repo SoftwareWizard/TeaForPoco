@@ -38,8 +38,9 @@ With **TeaForPoco** you can automatically generate typescript model and enum cla
 1. Clone the project
 2. Open the Visual Studio Solution file (*TeaForPoco.sln*)
 3. Restore nuget packages for the project (right click on project and select Manage NuGet Packages...)
-4. Run T4 Template generation (e.g. from VS menu: Build->Transform All T4 Templates)
-5. Check the generated files for the Sample Poco Files in SampleDto and SampleEnum folder.
+4. Under Properties for the core file, set Build Action to none (otherwise you may get a generated output file)
+5. Run T4 Template generation (e.g. from VS menu: Build->Transform All T4 Templates)
+6. Check the generated files for the Sample Poco Files in SampleDto and SampleEnum folder.
  (*[\Typescript\enums.tt.generated.ts](https://github.com/SoftwareWizard/TeaForPoco/blob/master/docs/images/enums.generated.ts.png)*, *[\Typescript\models.tt.generated.ts](https://github.com/SoftwareWizard/TeaForPoco/blob/master/docs/images/models.generated.ts.png)*)
 
 ### Use it in your own Project
